@@ -9,7 +9,7 @@
 
 ## About
 
-A Telegram user bot that forwards messages between chats, groups, and channels using MTProto API Telegram client library [gramjs](https://github.com/gram-js/gramjs).
+A Telegram user bot that forwards messages between chats, groups, and channels using MTProto API Telegram client library [teleproto](https://github.com/sanyok12345/teleproto) froked from [gramjs](https://github.com/gram-js/gramjs).
 
 Fully configurable via an intuitive bot menu, using [Telegram Menu Automated](https://github.com/PetroVoronov/telegram-menu-from-structure).
 
