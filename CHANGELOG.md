@@ -2,16 +2,13 @@
 
 ## [1.7.0](https://github.com/PetroVoronov/telegram-forward-user-bot/compare/v1.6.13...v1.7.0) (2026-01-06)
 
-
 ### Bug Fixes
 
 * correct library reference in README ([1269900](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/1269900e628cdb6079a883f0b5b47402fdddacb6))
 
-
 ### Code Refactoring
 
 * migrate from telegram to teleproto for API and logging ([6522816](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/652281627a1a1f898f0bde4deda0c0da82e50286))
-
 
 ### Miscellaneous Chores
 
