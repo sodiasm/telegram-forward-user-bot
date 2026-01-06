@@ -1,4 +1,4 @@
-const {Logger} = require('telegram/extensions/Logger');
+const {Logger} = require('teleproto/extensions/Logger');
 class SecuredLogger extends Logger {
   constructor(...args) {
     super(...args);

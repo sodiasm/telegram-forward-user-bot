@@ -1,6 +1,6 @@
-const {Api, TelegramClient} = require('telegram');
-const {StringSession, StoreSession} = require('telegram/sessions');
-const {Button} = require('telegram/tl/custom/button');
+const {Api, TelegramClient} = require('teleproto');
+const {StringSession, StoreSession} = require('teleproto/sessions');
+const {Button} = require('teleproto/tl/custom/button');
 const readline = require('node:readline/promises');
 const {stdin: input, stdout: output, exit} = require('node:process');
 const stringify = require('json-stringify-safe');
@@ -10,9 +10,9 @@ const {Cache} = require('./modules/cache/Cache');
 const {Command} = require('commander');
 const {setTimeout} = require('node:timers');
 const {securedLogger: log} = require('./modules/logging/logging');
-const {NewMessage, NewMessageEvent} = require('telegram/events');
-const {EditedMessage} = require('telegram/events/EditedMessage');
-const {CallbackQuery, CallbackQueryEvent} = require('telegram/events/CallbackQuery');
+const {NewMessage, NewMessageEvent} = require('teleproto/events');
+const {EditedMessage} = require('teleproto/events/EditedMessage');
+const {CallbackQuery, CallbackQueryEvent} = require('teleproto/events/CallbackQuery');
 const {name: scriptName, version: scriptVersion} = require('./version');
 const i18n = require('./modules/i18n/i18n.config');
 
@@ -1172,6 +1172,7 @@ menuRoot
               phoneCode: async () => rl.question('Enter the code: '),
               onError: (err) => {
                 log.warn(err, logAsUser);
+                throw new Error("Can't login user client!");
               },
             })
             .then((connect) => {
