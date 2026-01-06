@@ -419,7 +419,8 @@ const topicIdPresence = (item, path) => {
           clientAsUser
             .invoke(
               new Api.messages.GetForumTopics({
-                channel: entity,
+                peer: entity,
+                q: "",
                 limit: 100,
                 offsetId: 0,
                 offsetDate: 0,
@@ -1328,7 +1329,8 @@ async function refreshDialogs() {
             if (item.entity?.forum === true) {
               const forum = await clientAsUser.invoke(
                 new Api.messages.GetForumTopics({
-                  channel: item.entity,
+                  peer: item.entity,
+                  q: "",
                   limit: 100,
                   offsetId: 0,
                   offsetDate: 0,
@@ -1360,7 +1362,7 @@ async function refreshDialogs() {
           const lastProcessedId =
             (typeof lastProcessed[rule.from.id] === 'object' ? lastProcessed[rule.from.id].id : lastProcessed[rule.from.id]) || 0;
           const lastProcessedEditDate = lastProcessed[rule.from.id]?.editDate || 0;
-          const lastSourceId = dialogFrom.dialog?.topMessage;
+          const lastSourceId = dialogFrom?.dialog?.topMessage;
           if (rule.processMissedMaxCount > 0 && dialogFrom !== null && dialogFrom !== undefined) {
             if (rule.processEditsOnForwarded === true) {
               const lastForwardedId =
