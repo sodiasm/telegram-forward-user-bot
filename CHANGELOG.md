@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.3](https://github.com/PetroVoronov/telegram-forward-user-bot/compare/v1.7.2...v1.7.3) (2026-01-06)
+
+### Code Refactoring
+
+* **logging:** add plain log option and enhance SecuredLogger functionality ([bfc85f8](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/bfc85f898d4d4a3d12dcd24a26d3c00485d83ecb))
+
 ## [1.7.2](https://github.com/PetroVoronov/telegram-forward-user-bot/compare/v1.7.1...v1.7.2) (2026-01-06)
 
 ### Bug Fixes
