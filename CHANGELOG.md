@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.7.0](https://github.com/PetroVoronov/telegram-forward-user-bot/compare/v1.6.13...v1.7.0) (2026-01-06)
+
+### Bug Fixes
+
+* correct library reference in README ([1269900](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/1269900e628cdb6079a883f0b5b47402fdddacb6))
+
+### Code Refactoring
+
+* migrate from telegram to teleproto for API and logging ([6522816](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/652281627a1a1f898f0bde4deda0c0da82e50286))
+
+### Miscellaneous Chores
+
+* **deps-dev:** Bump globals from 16.4.0 to 17.0.0 ([4fb71a2](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/4fb71a29099e94d8443c07a3b66b030e4a21d793))
+* **deps-dev:** Bump globals from 16.4.0 to 17.0.0 ([61348bb](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/61348bbe4c4cdbeb483cc7fe2f126394f4023443))
+* **deps-dev:** Bump markdownlint-cli2 from 0.18.1 to 0.20.0 ([615525b](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/615525b2fc8b7d68718bdec4b481be0755f731a6))
+* **deps-dev:** Bump markdownlint-cli2 from 0.18.1 to 0.20.0 ([df9351a](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/df9351aee4faebb71dca7c22d8e422b66acc4e8b))
+* **deps:** Bump @messageformat/runtime ([18fcf7d](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/18fcf7d6f6baf48266341fa63b5a5eeebfb78227))
+* **deps:** Bump @messageformat/runtime from 3.0.1 to 3.0.2 in the npm_and_yarn group across 1 directory ([1795903](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/1795903a7f72c968424ce4e52dca6d13334b5d50))
+* **deps:** Bump i18n from 0.15.2 to 0.15.3 ([936051a](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/936051aa115822806b1a9fb3e0821ff66b2b38f7))
+* **deps:** Bump i18n from 0.15.2 to 0.15.3 ([7743e64](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/7743e64ca3cc0b07598d03b1e11f06f56bbc78c1))
+* **deps:** Bump node from 24-alpine to 25-alpine ([35063cc](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/35063cc0abf6629767496ab02dbfdbd98c38fb60))
+* release 1.7.0 ([28d17de](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/28d17de152582eba5684e8caa9662f54d6d0e838))
+* update markdownlint-cli2 to version 0.20.0 ([197119f](https://github.com/PetroVoronov/telegram-forward-user-bot/commit/197119f6d1ce87ce40b3f5657f4370e1bd97e641))
+
 ## [1.6.13](https://github.com/PetroVoronov/telegram-forward-user-bot/compare/v1.6.12...v1.6.13) (2025-10-26)
 
 ### Build System
