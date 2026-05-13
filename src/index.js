@@ -824,7 +824,91 @@ function updateForwardListeners(force = false) {
 }
 
 // eslint-disable-next-line sonarjs/sonar-max-params
-function forwardMessage(rule, fromPeer, sourceId, toPeer, lastProcessedId, messageId, message, messageEditDate) {
+/**
+ * Check if the message is from a mail2telegram bot (detected by callback_data pattern)
+ * @param {Object} event - The message event
+ * @returns {boolean}
+ */
+function isMail2TelegramMessage(event) {
+    try {
+        const replyMarkup = event?.message?.replyMarkup;
+        if (!replyMarkup || !replyMarkup.rows) return false;
+        for (const row of replyMarkup.rows) {
+            if (!row.buttons) continue;
+            for (const button of row.buttons) {
+                if (button.data) {
+                    const data = Buffer.isBuffer(button.data) ? button.data.toString() : String(button.data);
+                    if (data.startsWith('p:') || data.startsWith('l:') || data.startsWith('s:')) {
+                        return true;
+                    }
+                }
+            }
+        }
+    } catch (_) { /* ignore */ }
+    return false;
+}
+
+/**
+ * Extract the Text/HTML content URL from a mail2telegram inline keyboard
+ * Prefers Text mode over HTML mode
+ * @param {Object} event - The message event
+ * @returns {string|null}
+ */
+function extractMailContentUrl(event) {
+    try {
+        const replyMarkup = event?.message?.replyMarkup;
+        if (!replyMarkup || !replyMarkup.rows) return null;
+        let htmlUrl = null;
+        for (const row of replyMarkup.rows) {
+            if (!row.buttons) continue;
+            for (const button of row.buttons) {
+                if (button.url && button.url.includes('/email/')) {
+                    if (button.url.includes('mode=text')) return button.url;
+                    if (button.url.includes('mode=html')) htmlUrl = button.url;
+                }
+            }
+        }
+        return htmlUrl;
+    } catch (_) { return null; }
+}
+
+function forwardMessage(rule, fromPeer, sourceId, toPeer, lastProcessedId, messageId, message, messageEditDate, event) {
+  // If the message is from mail2telegram, send an enriched message with content URL
+  // instead of forwarding (so the destination gets a direct link to the email content)
+  if (event && isMail2TelegramMessage(event)) {
+    const contentUrl = extractMailContentUrl(event);
+    if (contentUrl) {
+      const enrichedMessage = `${message}\n\n📧 ${contentUrl}`;
+      const sendParams = {
+        peer: toPeer,
+        message: enrichedMessage,
+        randomId: getRandomId(),
+        noWebpage: false,
+      };
+      if (rule.to.topicId !== null && rule.to.topicId !== undefined) {
+        sendParams.topMsgId = rule.to.topicId;
+      }
+      clientAsUser
+        .invoke(new Api.messages.SendMessage(sendParams))
+        .then((res) => {
+          if (rule.antiFastEditDelay > 0 && lastForwardedDelayed[rule.from.id] === undefined) {
+            delete lastForwardedDelayed[rule.from.id];
+          }
+          log.info(`[${rule.label}, ${sourceId}, ${messageId}]: Mail2Telegram enriched and sent!`, logAsUser);
+          if (messageId > lastProcessedId) {
+            lastProcessed[rule.from.id] = {id: messageId, editDate: messageEditDate};
+            cache.setItem('lastProcessed', lastProcessed);
+          }
+          lastForwarded[rule.from.id] = {id: messageId, editDate: messageEditDate, message: enrichedMessage};
+          cache.setItem('lastForwarded', lastForwarded);
+        })
+        .catch((err) => {
+          log.warn(`[${rule.label}, ${sourceId}, ${messageId}]: Enriched send failed: ${err}`, logAsUser);
+        });
+      return;
+    }
+  }
+
   const forwardMessageInput = {
     fromPeer: fromPeer,
     id: [messageId],
@@ -981,11 +1065,11 @@ function onMessageToForward(event, onRefresh = false, onEdit = false) {
             id: messageId,
             timeout: setTimeout(() => {
               delete lastForwardedDelayed[rule.from.id];
-              forwardMessage(rule, peerId, sourceId, entityTo, lastProcessedId, messageId, message, messageEditDate);
+              forwardMessage(rule, peerId, sourceId, entityTo, lastProcessedId, messageId, message, messageEditDate, event);
             }, rule.antiFastEditDelay * 1000),
           };
         } else {
-          forwardMessage(rule, peerId, sourceId, entityTo, lastProcessedId, messageId, message, messageEditDate);
+          forwardMessage(rule, peerId, sourceId, entityTo, lastProcessedId, messageId, message, messageEditDate, event);
         }
       } else {
         log.debug(`[${rule.label}, ${sourceId}, ${messageId}]: Message is not forwarded! See reasons above.`, logAsUser);
