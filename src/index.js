@@ -1054,6 +1054,15 @@ function onMessageToForward(event, onRefresh = false, onEdit = false) {
             return includesFound && excludesNotFound;
           });
         log.info(`[${rule.label}, ${sourceId}, ${messageId}]: Result of rules check to forward: ${toForward}`, logAsUser);
+      } else if (
+        toForward === false &&
+        skipProcessing === false &&
+        messageIsString &&
+        (!Array.isArray(rule.keywordsGroups) || rule.keywordsGroups.length === 0)
+      ) {
+        // No keywords configured — forward all messages
+        toForward = true;
+        log.info(`[${rule.label}, ${sourceId}, ${messageId}]: No keywords configured, forwarding all messages.`, logAsUser);
       }
       if (toForward) {
         if (rule.processEditsOnForwarded === true && rule.antiFastEditDelay > 0) {
