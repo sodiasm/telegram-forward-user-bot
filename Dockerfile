@@ -1,4 +1,4 @@
-FROM node:25-alpine
+FROM --platform=linux/arm64 node:25-alpine
 ARG TARGETPLATFORM
 
 # Copy across the files from our `intermediate` container
